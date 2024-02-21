@@ -81,6 +81,18 @@ function employeeTracker() {
           mainMenu();
         });
       break;
+      case viewRoles:
+        db.query('SELECT roles.id,title,salary,department.department_name FROM roles LEFT JOIN department ON department_id = department.id', function (err, results) {
+          if (err) {
+            console.error('Error fetching roles', err);
+            return;
+          }
+          console.log("");
+          console.table(results);
+          console.log("");
+          mainMenu();
+        });
+      break;
       };
   });
   return;
