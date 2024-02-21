@@ -14,7 +14,32 @@ const db = mysql.createConnection(
   console.log(`Connected to the database.`)
 );
 
+//Create function for continuing 
 //Create Menu Choices
+const newMenu = "Return to main menu";
+const quitApplication = "Quit";
+
+async function mainMenu() {
+  const response = await inquirer.prompt([
+    {
+      type: 'list',
+      message: 'What would you like to do?',
+      choices: [
+        newMenu,
+        quitApplication,
+      ],
+      name: 'test',
+    },
+  ]);
+
+  if (response.test === newMenu) {
+    employeeTracker();
+  } else {
+    process.exit(0);
+  }
+};
+
+//Create Employee Tracker Menu Choices
 const viewDepartments = "View All Departments";
 const viewRoles = "View All Roles";
 const viewEmployees = "View All Employees";
@@ -23,7 +48,8 @@ const addRole = "Add a Role";
 const addEmployee = "Add an Employee";
 const updateEmployee = "Update an Employee Role";
 
-function mainMenu() {
+//Employee Tracker 
+function employeeTracker() {
   inquirer
   .prompt([
     {
@@ -52,6 +78,7 @@ function mainMenu() {
           console.log("");
           console.table(results);
           console.log("");
+          mainMenu();
         });
       break;
       };
@@ -59,4 +86,4 @@ function mainMenu() {
   return;
 };
 
-mainMenu();
+employeeTracker();
