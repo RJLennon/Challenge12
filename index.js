@@ -125,6 +125,54 @@ function employeeTracker() {
             mainMenu();
           });
       break;
+      case addRole:
+        //Query to return all departments for inquier prompt
+        db.query('SELECT * FROM department',function (err,results) {
+          if (err) {
+            console.error('Error fetching departments',err);
+            return;
+          }
+          const allDepartments = results.map((row)=>{
+            return {
+              name: row.department_name,
+              value: row.id
+            };
+          });
+        //inquirer prompt to get new role info
+          inquirer
+          .prompt([
+            {
+              type: 'input',
+              message: 'Enter the name of the role',
+              name: 'newRole',
+            },
+            {
+              type: 'input',
+              message: 'Enter the salary',
+              name: 'newSalary',
+            },
+            {
+              type: 'list',
+              message: 'Select a department',
+              choices: allDepartments,
+              name: 'roleDepartment',
+            }
+          ])
+          .then((response) => {
+            //insert responses into db
+            db.query('INSERT INTO roles (title,salary,department_id) VALUES (?,?,?)',
+            [response.newRole,response.newSalary,response.roleDepartment],
+            function (err, results) {
+              if (err) {
+                console.error('Error adding role', err);
+                return;
+              }
+              console.log('New role added!');
+              mainMenu();
+            })
+          });
+        });
+      break;
       };
   });
   return;
