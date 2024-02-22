@@ -105,6 +105,26 @@ function employeeTracker() {
           mainMenu();
         });
       break;
+      case addDepartment:
+        inquirer
+          .prompt([
+            {
+              type: 'input',
+              message: 'Enter the name of a department',
+              name: 'newDepartment',
+            },
+          ])
+          .then((response) => {
+            db.query('INSERT INTO department (department_name) VALUES (?)',[response.newDepartment],function (err, results) {
+              if (err) {
+                console.error('Error adding department', err);
+                return;
+              }
+              console.log('New department added!');
+            })
+            mainMenu();
+          });
+      break;
       };
   });
   return;
