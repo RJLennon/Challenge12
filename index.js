@@ -173,6 +173,52 @@ function employeeTracker() {
           });
         });
       break;
+      case addEmployee:
+        //Query to return all roles for inquirer prompt
+        db.query('SELECT * FROM roles',function (err,results) {
+          if (err) {
+            console.error('Error fetching roles',err);
+            return;
+          }
+          const allRoles = results.map((row)=>{
+            return {
+              name: row.title,
+              value: row.id
+            };
+          });
+          //inquirer prompt to get new employee info
+          inquirer
+          .prompt([
+            {
+              type: 'input',
+              message: 'Enter the employee first name',
+              name: 'newFirstName',
+            },
+            {
+              type: 'input',
+              message: 'Enter the employee last name',
+              name: 'newLastName',
+            },
+            {
+              type: 'list',
+              message: 'Select a role',
+              choices: allRoles,
+              name: 'employeeRole',
+            }
+          ])
+          .then((response) => {
+            //insert responses into db
+            db.query('INSERT INTO employee (first_name,last_name,role_id) VALUES (?,?,?)',[response.newFirstName,response.newLastName,response.employeeRole],function (err, results) {
+              if (err) {
+                console.error('Error adding employee', err);
+                return;
+              }
+              console.log('New employee added!');
+              mainMenu();
+            })
+          });
+        });
+      break;
       };
   });
   return;
