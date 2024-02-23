@@ -186,7 +186,7 @@ function employeeTracker() {
               value: row.id
             };
           });
-        //Query to return all roles for inquirer prompt
+        //Query to return all employee names for inquirer prompt
         db.query('SELECT employee.id, CONCAT(first_name," ",last_name) AS "manager_name" FROM employee',function (err,results) {
           if (err) {
             console.error('Error fetching roles',err);
