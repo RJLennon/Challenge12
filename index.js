@@ -186,6 +186,18 @@ function employeeTracker() {
               value: row.id
             };
           });
+        //Query to return all roles for inquirer prompt
+        db.query('SELECT employee.id, CONCAT(first_name," ",last_name) AS "manager_name" FROM employee',function (err,results) {
+          if (err) {
+            console.error('Error fetching roles',err);
+            return;
+          }
+          const allManagers = results.map((row)=>{
+            return {
+              name: row.manager_name,
+              value: row.id
+            };
+          });
           //inquirer prompt to get new employee info
           inquirer
           .prompt([
@@ -204,11 +216,17 @@ function employeeTracker() {
               message: 'Select a role',
               choices: allRoles,
               name: 'employeeRole',
+            },
+            {
+              type: 'list',
+              message: 'Select a manager',
+              choices: allManagers,
+              name: 'employeeManager',
             }
           ])
           .then((response) => {
             //insert responses into db
-            db.query('INSERT INTO employee (first_name,last_name,role_id) VALUES (?,?,?)',[response.newFirstName,response.newLastName,response.employeeRole],function (err, results) {
+            db.query('INSERT INTO employee (first_name,last_name,role_id,manager_id) VALUES (?,?,?,?)',[response.newFirstName,response.newLastName,response.employeeRole,response.employeeManager],function (err, results) {
               if (err) {
                 console.error('Error adding employee', err);
                 return;
@@ -218,6 +236,7 @@ function employeeTracker() {
             })
           });
         });
+      });
       break;
       };
   });
