@@ -238,6 +238,61 @@ function employeeTracker() {
         });
       });
       break;
+      case updateEmployee:
+        //Query to return all roles for inquirer prompt
+        db.query('SELECT * FROM roles',function (err,results) {
+          if (err) {
+            console.error('Error fetching roles',err);
+            return;
+          }
+          const allRoles = results.map((row)=>{
+            return {
+              name: row.title,
+              value: row.id
+            };
+          });
+        //Query to return all employee names for inquirer prompt
+        db.query('SELECT employee.id, CONCAT(first_name," ",last_name) AS "employee_name" FROM employee',function (err,results) {
+          if (err) {
+            console.error('Error fetching roles',err);
+            return;
+          }
+          const allEmployees = results.map((row)=>{
+            return {
+              name: row.employee_name,
+              value: row.id
+            };
+          });
+          //inquirer prompt to get new employee info
+          inquirer
+          .prompt([
+            {
+              type: 'list',
+              message: 'Select an employee',
+              choices: allEmployees,
+              name: 'employeeName',
+            },
+            {
+              type: 'list',
+              message: 'Select a role',
+              choices: allRoles,
+              name: 'employeeRole',
+            }
+          ])
+          .then((response) => {
+            //update responses into db
+            db.query('UPDATE employee SET role_id = ? WHERE id = ?',[response.employeeRole,response.employeeName],function (err, results) {
+              if (err) {
+                console.error('Error updating employee', err);
+                return;
+              }
+              console.log('Employee role updated!');
+              mainMenu();
+            })
+          });
+        });
+      });
+      break;
       };
   });
   return;
