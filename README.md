@@ -34,4 +34,4 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 The following video shows an example of the application being used from the command line:
 
-[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./Assets/12-sql-homework-video-thumbnail.png)](https://2u-20.wistia.com/medias/2lnle7xnpk)
+[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./images/Challenge%2012%20Thumbnail.png)](https://drive.google.com/file/d/1DKtrOd_McTvqqgtp8G5Aa45Hi72gYL1t/view?usp=sharing)
