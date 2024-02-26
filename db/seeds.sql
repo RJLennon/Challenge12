@@ -21,12 +21,12 @@ VALUES  ("Lawyer",150000,1),
         ("Controller",180000,5);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES  ("John","Doe",1,NULL),
-        ("Jane","Doe",1,NULL),
-        ("Clark","Kent",2,NULL),
-        ("Barry","Allen",3,NULL),
-        ("Bruce","Wayne",7,NULL),
-        ("Peter","Parker",9,NULL),
-        ("Bruce","Banner",10,NULL);
+VALUES  ("John","Doe",3,NULL),
+        ("Jane","Doe",1,1),
+        ("Clark","Kent",2,1),
+        ("Barry","Allen",4,NULL),
+        ("Bruce","Wayne",3,4),
+        ("Peter","Parker",11,NULL),
+        ("Bruce","Banner",10,6);
 
 SELECT * FROM department

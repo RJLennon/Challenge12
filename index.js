@@ -94,7 +94,7 @@ function employeeTracker() {
         });
       break;
       case viewEmployees:
-        db.query('SELECT a.id,a.first_name,a.last_name,roles.title,department.department_name,roles.salary,CONCAT(b.first_name," ",b.last_name) AS "manager_name" FROM employee AS a LEFT JOIN roles ON role_id = roles.id LEFT JOIN department ON department_id = department.id LEFT JOIN employee AS b ON a.manager_id = b.id', function (err, results) {
+        db.query('SELECT a.id,a.first_name,a.last_name,roles.title,department.department_name,roles.salary,CONCAT(b.first_name," ",b.last_name) AS "manager_name" FROM employee AS a LEFT JOIN roles ON role_id = roles.id LEFT JOIN department ON department_id = department.id LEFT JOIN employee AS b ON a.manager_id = b.id ORDER BY a.id ASC', function (err, results) {
           if (err) {
             console.error('Error fetching roles', err);
             return;
